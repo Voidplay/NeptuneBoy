@@ -1,0 +1,24 @@
+-- `neptuneboy-dev`.position_management definition
+
+CREATE TABLE `position_management` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `account_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '账户名称，即券商名字，例如: Robinhood, Interactive Brokers',
+  `trade_type` enum('STOCK','OPTION') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'STOCK' COMMENT '交易类型，STOCK表示正股，OPTION表示期权',
+  `ticker_symbol` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '交易标的代码，例如AAPL、TSLA',
+  `trade_date` date NOT NULL COMMENT '交易日期',
+  `trade_direction` enum('BUY','SELL') COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '交易方向，BUY表示买入，SELL表示卖出',
+  `quantity` int NOT NULL COMMENT '交易数量',
+  `price` decimal(18,4) NOT NULL COMMENT '交易单价',
+  `total_price` decimal(18,4) GENERATED ALWAYS AS ((`quantity` * `price`)) STORED COMMENT '交易总价，数量乘以价格',
+  `is_closed` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否已平仓，FALSE表示未平仓，TRUE表示已平仓',
+  `option_strategy` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '期权策略，例如裸买、买入跨式等',
+  `profit_loss` decimal(18,4) DEFAULT NULL COMMENT '盈亏金额',
+  `is_profitable` tinyint(1) GENERATED ALWAYS AS ((case when (`profit_loss` > 0) then true else false end)) STORED COMMENT '是否盈利，盈亏金额大于0为盈利',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
+  `closing_price` decimal(10,2) DEFAULT NULL COMMENT '平仓单价',
+  `closing_total_price` decimal(15,2) DEFAULT NULL COMMENT '平仓总价',
+  `closing_date` date NOT NULL COMMENT '平仓日期',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_trade` (`account_name`,`trade_date`,`ticker_symbol`,`trade_type`) COMMENT '防止重复记录'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='仓位管理表，用于记录正股和期权的仓位详情';
