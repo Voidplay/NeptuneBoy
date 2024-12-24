@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PositionManagementMapper">
+    
+    <resultMap type="PositionManagement" id="PositionManagementResult">
+        <result property="id"    column="id"    />
+        <result property="accountName"    column="account_name"    />
+        <result property="tradeType"    column="trade_type"    />
+        <result property="tickerSymbol"    column="ticker_symbol"    />
+        <result property="tradeDate"    column="trade_date"    />
+        <result property="tradeDirection"    column="trade_direction"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="price"    column="price"    />
+        <result property="totalPrice"    column="total_price"    />
+        <result property="isClosed"    column="is_closed"    />
+        <result property="optionStrategy"    column="option_strategy"    />
+        <result property="profitLoss"    column="profit_loss"    />
+        <result property="isProfitable"    column="is_profitable"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="closingPrice"    column="closing_price"    />
+        <result property="closingTotalPrice"    column="closing_total_price"    />
+        <result property="closingDate"    column="closing_date"    />
+    </resultMap>
+
+    <sql id="selectPositionManagementVo">
+        select id, account_name, trade_type, ticker_symbol, trade_date, trade_direction, quantity, price, total_price, is_closed, option_strategy, profit_loss, is_profitable, create_time, update_time, closing_price, closing_total_price, closing_date from position_management
+    </sql>
+
+    <select id="selectPositionManagementList" parameterType="PositionManagement" resultMap="PositionManagementResult">
+        <include refid="selectPositionManagementVo"/>
+        <where>  
+            <if test="accountName != null  and accountName != ''"> and account_name like concat('%', #{accountName}, '%')</if>
+            <if test="tradeType != null  and tradeType != ''"> and trade_type = #{tradeType}</if>
+            <if test="tickerSymbol != null  and tickerSymbol != ''"> and ticker_symbol = #{tickerSymbol}</if>
+            <if test="tradeDate != null "> and trade_date = #{tradeDate}</if>
+            <if test="tradeDirection != null  and tradeDirection != ''"> and trade_direction = #{tradeDirection}</if>
+            <if test="quantity != null "> and quantity = #{quantity}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="totalPrice != null "> and total_price = #{totalPrice}</if>
+            <if test="isClosed != null "> and is_closed = #{isClosed}</if>
+            <if test="optionStrategy != null  and optionStrategy != ''"> and option_strategy = #{optionStrategy}</if>
+            <if test="profitLoss != null "> and profit_loss = #{profitLoss}</if>
+            <if test="isProfitable != null "> and is_profitable = #{isProfitable}</if>
+            <if test="closingPrice != null "> and closing_price = #{closingPrice}</if>
+            <if test="closingTotalPrice != null "> and closing_total_price = #{closingTotalPrice}</if>
+            <if test="closingDate != null "> and closing_date = #{closingDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectPositionManagementById" parameterType="Long" resultMap="PositionManagementResult">
+        <include refid="selectPositionManagementVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPositionManagement" parameterType="PositionManagement" useGeneratedKeys="true" keyProperty="id">
+        insert into position_management
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="accountName != null and accountName != ''">account_name,</if>
+            <if test="tradeType != null and tradeType != ''">trade_type,</if>
+            <if test="tickerSymbol != null and tickerSymbol != ''">ticker_symbol,</if>
+            <if test="tradeDate != null">trade_date,</if>
+            <if test="tradeDirection != null and tradeDirection != ''">trade_direction,</if>
+            <if test="quantity != null">quantity,</if>
+            <if test="price != null">price,</if>
+            <if test="totalPrice != null">total_price,</if>
+            <if test="isClosed != null">is_closed,</if>
+            <if test="optionStrategy != null">option_strategy,</if>
+            <if test="profitLoss != null">profit_loss,</if>
+            <if test="isProfitable != null">is_profitable,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="closingPrice != null">closing_price,</if>
+            <if test="closingTotalPrice != null">closing_total_price,</if>
+            <if test="closingDate != null">closing_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="accountName != null and accountName != ''">#{accountName},</if>
+            <if test="tradeType != null and tradeType != ''">#{tradeType},</if>
+            <if test="tickerSymbol != null and tickerSymbol != ''">#{tickerSymbol},</if>
+            <if test="tradeDate != null">#{tradeDate},</if>
+            <if test="tradeDirection != null and tradeDirection != ''">#{tradeDirection},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="price != null">#{price},</if>
+            <if test="totalPrice != null">#{totalPrice},</if>
+            <if test="isClosed != null">#{isClosed},</if>
+            <if test="optionStrategy != null">#{optionStrategy},</if>
+            <if test="profitLoss != null">#{profitLoss},</if>
+            <if test="isProfitable != null">#{isProfitable},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="closingPrice != null">#{closingPrice},</if>
+            <if test="closingTotalPrice != null">#{closingTotalPrice},</if>
+            <if test="closingDate != null">#{closingDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePositionManagement" parameterType="PositionManagement">
+        update position_management
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="accountName != null and accountName != ''">account_name = #{accountName},</if>
+            <if test="tradeType != null and tradeType != ''">trade_type = #{tradeType},</if>
+            <if test="tickerSymbol != null and tickerSymbol != ''">ticker_symbol = #{tickerSymbol},</if>
+            <if test="tradeDate != null">trade_date = #{tradeDate},</if>
+            <if test="tradeDirection != null and tradeDirection != ''">trade_direction = #{tradeDirection},</if>
+            <if test="quantity != null">quantity = #{quantity},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="totalPrice != null">total_price = #{totalPrice},</if>
+            <if test="isClosed != null">is_closed = #{isClosed},</if>
+            <if test="optionStrategy != null">option_strategy = #{optionStrategy},</if>
+            <if test="profitLoss != null">profit_loss = #{profitLoss},</if>
+            <if test="isProfitable != null">is_profitable = #{isProfitable},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="closingPrice != null">closing_price = #{closingPrice},</if>
+            <if test="closingTotalPrice != null">closing_total_price = #{closingTotalPrice},</if>
+            <if test="closingDate != null">closing_date = #{closingDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePositionManagementById" parameterType="Long">
+        delete from position_management where id = #{id}
+    </delete>
+
+    <delete id="deletePositionManagementByIds" parameterType="String">
+        delete from position_management where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
