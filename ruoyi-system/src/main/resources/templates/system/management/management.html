@@ -11,55 +11,55 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>账户名称，即券商名字，例如: Robinhood, Interactive Brokers：</label>
+                                <label>券商名称</label>
                                 <input type="text" name="accountName"/>
                             </li>
                             <li>
-                                <label>交易标的代码，例如AAPL、TSLA：</label>
+                                <label>ticker</label>
                                 <input type="text" name="tickerSymbol"/>
                             </li>
                             <li>
-                                <label>交易日期：</label>
+                                <label>成交日期</label>
                                 <input type="text" class="time-input" placeholder="请选择交易日期" name="tradeDate"/>
                             </li>
                             <li>
-                                <label>交易数量：</label>
+                                <label>订单数量</label>
                                 <input type="text" name="quantity"/>
                             </li>
                             <li>
-                                <label>交易单价：</label>
+                                <label>订单单价：</label>
                                 <input type="text" name="price"/>
                             </li>
                             <li>
-                                <label>交易总价，数量乘以价格：</label>
+                                <label>交易总价</label>
                                 <input type="text" name="totalPrice"/>
                             </li>
                             <li>
-                                <label>是否已平仓，FALSE表示未平仓，TRUE表示已平仓：</label>
+                                <label>是否已平仓</label>
                                 <input type="text" name="isClosed"/>
                             </li>
                             <li>
-                                <label>期权策略，例如裸买、买入跨式等：</label>
+                                <label>期权策略</label>
                                 <input type="text" name="optionStrategy"/>
                             </li>
                             <li>
-                                <label>盈亏金额：</label>
+                                <label>盈亏金额</label>
                                 <input type="text" name="profitLoss"/>
                             </li>
                             <li>
-                                <label>是否盈利，盈亏金额大于0为盈利：</label>
+                                <label>是否盈利</label>
                                 <input type="text" name="isProfitable"/>
                             </li>
                             <li>
-                                <label>平仓单价：</label>
+                                <label>平仓单价</label>
                                 <input type="text" name="closingPrice"/>
                             </li>
                             <li>
-                                <label>平仓总价：</label>
+                                <label>平仓总价</label>
                                 <input type="text" name="closingTotalPrice"/>
                             </li>
                             <li>
-                                <label>平仓日期：</label>
+                                <label>平仓日期</label>
                                 <input type="text" class="time-input" placeholder="请选择平仓日期" name="closingDate"/>
                             </li>
                             <li>
@@ -114,15 +114,15 @@
                 },
                 {
                     field: 'accountName',
-                    title: '账户名称，即券商名字，例如: Robinhood, Interactive Brokers'
+                    title: '券商名称'
                 },
                 {
                     field: 'tradeType',
-                    title: '交易类型，STOCK表示正股，OPTION表示期权'
+                    title: '交易类型'
                 },
                 {
                     field: 'tickerSymbol',
-                    title: '交易标的代码，例如AAPL、TSLA'
+                    title: 'ticker'
                 },
                 {
                     field: 'tradeDate',
@@ -130,7 +130,7 @@
                 },
                 {
                     field: 'tradeDirection',
-                    title: '交易方向，BUY表示买入，SELL表示卖出'
+                    title: '交易方向'
                 },
                 {
                     field: 'quantity',
@@ -142,15 +142,15 @@
                 },
                 {
                     field: 'totalPrice',
-                    title: '交易总价，数量乘以价格'
+                    title: '交易总价'
                 },
                 {
                     field: 'isClosed',
-                    title: '是否已平仓，FALSE表示未平仓，TRUE表示已平仓'
+                    title: '是否已平仓'
                 },
                 {
                     field: 'optionStrategy',
-                    title: '期权策略，例如裸买、买入跨式等'
+                    title: '期权策略'
                 },
                 {
                     field: 'profitLoss',
@@ -158,7 +158,7 @@
                 },
                 {
                     field: 'isProfitable',
-                    title: '是否盈利，盈亏金额大于0为盈利'
+                    title: '是否盈利'
                 },
                 {
                     field: 'closingPrice',
