@@ -18,7 +18,7 @@
             </div>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label is-required">交易标的代码，例如AAPL、TSLA：</label>
+                    <label class="col-sm-3 control-label is-required">ticker</label>
                     <div class="col-sm-8">
                         <input name="tickerSymbol" th:field="*{tickerSymbol}" class="form-control" type="text" required>
                     </div>
@@ -26,7 +26,7 @@
             </div>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label is-required">交易日期：</label>
+                    <label class="col-sm-3 control-label is-required">成交日期</label>
                     <div class="col-sm-8">
                         <div class="input-group date">
                             <input name="tradeDate" th:value="${#dates.format(positionManagement.tradeDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
@@ -37,7 +37,7 @@
             </div>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label is-required">交易数量：</label>
+                    <label class="col-sm-3 control-label is-required">订单数量</label>
                     <div class="col-sm-8">
                         <input name="quantity" th:field="*{quantity}" class="form-control" type="text" required>
                     </div>
@@ -45,7 +45,7 @@
             </div>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label is-required">交易单价：</label>
+                    <label class="col-sm-3 control-label is-required">订单单价</label>
                     <div class="col-sm-8">
                         <input name="price" th:field="*{price}" class="form-control" type="text" required>
                     </div>
@@ -53,7 +53,7 @@
             </div>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">交易总价，数量乘以价格：</label>
+                    <label class="col-sm-3 control-label">交易总价</label>
                     <div class="col-sm-8">
                         <input name="totalPrice" th:field="*{totalPrice}" class="form-control" type="text">
                     </div>
@@ -61,7 +61,7 @@
             </div>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label is-required">是否已平仓，FALSE表示未平仓，TRUE表示已平仓：</label>
+                    <label class="col-sm-3 control-label is-required">是否已平仓</label>
                     <div class="col-sm-8">
                         <input name="isClosed" th:field="*{isClosed}" class="form-control" type="text" required>
                     </div>
@@ -69,7 +69,7 @@
             </div>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">期权策略，例如裸买、买入跨式等：</label>
+                    <label class="col-sm-3 control-label">期权策略</label>
                     <div class="col-sm-8">
                         <input name="optionStrategy" th:field="*{optionStrategy}" class="form-control" type="text">
                     </div>
@@ -77,7 +77,7 @@
             </div>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">盈亏金额：</label>
+                    <label class="col-sm-3 control-label">盈亏金额</label>
                     <div class="col-sm-8">
                         <input name="profitLoss" th:field="*{profitLoss}" class="form-control" type="text">
                     </div>
@@ -85,7 +85,7 @@
             </div>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">是否盈利，盈亏金额大于0为盈利：</label>
+                    <label class="col-sm-3 control-label">是否盈利</label>
                     <div class="col-sm-8">
                         <input name="isProfitable" th:field="*{isProfitable}" class="form-control" type="text">
                     </div>
@@ -93,7 +93,7 @@
             </div>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">平仓单价：</label>
+                    <label class="col-sm-3 control-label">平仓单价</label>
                     <div class="col-sm-8">
                         <input name="closingPrice" th:field="*{closingPrice}" class="form-control" type="text">
                     </div>
@@ -101,7 +101,7 @@
             </div>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">平仓总价：</label>
+                    <label class="col-sm-3 control-label">平仓总价</label>
                     <div class="col-sm-8">
                         <input name="closingTotalPrice" th:field="*{closingTotalPrice}" class="form-control" type="text">
                     </div>
@@ -109,7 +109,7 @@
             </div>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label is-required">平仓日期：</label>
+                    <label class="col-sm-3 control-label is-required">平仓日期</label>
                     <div class="col-sm-8">
                         <div class="input-group date">
                             <input name="closingDate" th:value="${#dates.format(positionManagement.closingDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
