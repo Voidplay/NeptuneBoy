@@ -68,7 +68,7 @@ public class PositionManagement extends BaseEntity
 
     /** 是否盈利，盈亏金额大于0为盈利 */
     @Excel(name = "是否盈利，盈亏金额大于0为盈利")
-    private Integer isProfitable;
+    private String isProfitable;
 
     /** 平仓单价 */
     @Excel(name = "平仓单价")
@@ -203,12 +203,12 @@ public class PositionManagement extends BaseEntity
         return profitLoss;
     }
 
-    public void setIsProfitable(Integer isProfitable) 
+    public void setIsProfitable(String isProfitable)
     {
         this.isProfitable = isProfitable;
     }
 
-    public Integer getIsProfitable() 
+    public String getIsProfitable()
     {
         return isProfitable;
     }

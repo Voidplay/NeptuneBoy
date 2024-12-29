@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isClosed != null "> and is_closed = #{isClosed}</if>
             <if test="optionStrategy != null  and optionStrategy != ''"> and option_strategy = #{optionStrategy}</if>
             <if test="profitLoss != null "> and profit_loss = #{profitLoss}</if>
-            <if test="isProfitable != null "> and is_profitable = #{isProfitable}</if>
+            <if test="isProfitable != null   and isProfitable != ''"> and is_profitable = #{isProfitable}</if>
             <if test="closingPrice != null "> and closing_price = #{closingPrice}</if>
             <if test="closingTotalPrice != null "> and closing_total_price = #{closingTotalPrice}</if>
             <if test="closingDate != null "> and closing_date = #{closingDate}</if>
