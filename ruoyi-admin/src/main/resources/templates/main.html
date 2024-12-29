@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,98 +12,109 @@
 </head>
 
 <body class="gray-bg">
-    <div class="row border-bottom white-bg dashboard-header">
-        <div class="col-sm-12">
+<div class="row border-bottom white-bg dashboard-header">
+    <div class="col-sm-12">
 
 
-            <hr>
+        <hr>
+    </div>
+    <div class="col-md-4">
+        <div class="widget">
+            <h3>总盈亏金额</h3>
+            <p id="total-profit-loss">加载中...</p>
         </div>
-        <div class="col-sm-3">
-            <h2>Hello,Guest</h2>
-            <small>移动设备访问请扫描以下二维码：</small>
-            <br>
-            <br>
-            <img th:src="@{/img/qr_code.png}" width="100%" style="max-width:264px;">
-            <br>
-        </div>
-        <div class="col-sm-5">
-            <h2>常用地址集合</h2>
-            <p>测试文本占用</p>
-            <p>
-                <b>当前版本：</b><span>v[[${version}]]</span>
-            </p>
-            <p>
-                <span class="label label-warning">&yen;免费开源</span>
-            </p>
-            <br>
-            <p>
-                <a class="btn btn-success btn-outline" href="https://www.reddit.com/r/wallstreetbets/" target="_blank">
-                    <i class="fa fa-cloud"> </i> 访问WSB
-                </a>
-                <a class="btn btn-white btn-bitbucket" href="http://ruoyi.vip" target="_blank">
-                    <i class="fa fa-home"></i> 查看fear&greed指标
-                </a>
-            </p>
+    </div>
+    <div class="col-sm-3">
+        <h2>Hello,Guest</h2>
+        <small>移动设备访问请扫描以下二维码：</small>
+        <br>
+        <br>
+        <img th:src="@{/img/qr_code.png}" width="100%" style="max-width:264px;">
+        <br>
+    </div>
+    <div class="col-sm-5">
+        <h2>常用地址集合</h2>
+        <p>测试文本占用</p>
+        <p>
+            <b>当前版本：</b><span>v[[${version}]]</span>
+        </p>
+        <p>
+            <span class="label label-warning">&yen;免费开源</span>
+        </p>
+        <br>
+        <p>
+            <a class="btn btn-success btn-outline" href="https://www.reddit.com/r/wallstreetbets/" target="_blank">
+                <i class="fa fa-cloud"> </i> 访问WSB
+            </a>
+            <a class="btn btn-white btn-bitbucket" href="http://ruoyi.vip" target="_blank">
+                <i class="fa fa-home"></i> 查看fear&greed指标
+            </a>
+        </p>
+    </div>
+    <div class="col-sm-4">
+        <h4>principles：</h4>
+        <ol>
+            <li>幸福来自于持续增长。</li>
+            <li>注重决策而非结果。</li>
+            <li>不要赔钱。</li>
+            <li>利用AI</li>
+            <li>定时任务:Quartz。</li>
+            <li>数据库连接池：Druid。</li>
+            <li>工具类：Fastjson。</li>
+            <li>更多……</li>
+        </ol>
+    </div>
+
+</div>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-4">
+
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>联系信息</h5>
+
+                </div>
+                <div class="ibox-content">
+                    <p><i class="fa fa-send-o"></i> 官网：<a href="http://www.ruoyi.vip" target="_blank">http://www.ruoyi.vip</a>
+                    </p>
+                    <p><i class="fa fa-qq"></i> QQ群：<s>满1389287</s> <s>满1679294</s> <s>满1529866</s> <s>满1772718</s> <s>满1366522</s>
+                        <s>满1382251</s> <s>满1145125</s> <s>满86752435</s> <s>满134072510</s> <s>满210336300</s> <s>满339522636</s>
+                        <s>满130035985</s> <s>满143151071</s> <s>满158781320</s> <s>满201531282</s> <s>满101526938</s> <s>满264355400</s>
+                        <s>满298522656</s> <s>满139845794</s> <s>满185760789</s> <s>满175104288</s> <s>满174942938</s> <s>满287843737</s>
+                        <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=KTVAIhggR3rR3uZWK9A8kR4yYNREQ4jo&authKey=An4DUV9e7uK8I8VgBbp949z0ypQoDrOoqvVg%2FWOr2vuNNDMZUAMPvqHor6TFMIgz&noverify=0&group_code=232896766"
+                           target="_blank">232896766</a>
+                    </p>
+                    <p><i class="fa fa-weixin"></i> 微信：<a href="javascript:;">/ *若依</a>
+                    </p>
+                    <p><i class="fa fa-credit-card"></i> 支付宝：<a href="javascript:;" class="支付宝信息">/ *若依</a>
+                    </p>
+                </div>
+            </div>
         </div>
         <div class="col-sm-4">
-            <h4>principles：</h4>
-            <ol>
-                <li>幸福来自于持续增长。</li>
-                <li>注重决策而非结果。</li>
-                <li>不要赔钱。</li>
-                <li>利用AI</li>
-				<li>定时任务:Quartz。</li>
-                <li>数据库连接池：Druid。</li>
-                <li>工具类：Fastjson。</li>
-                <li>更多……</li>
-            </ol>
-        </div>
-
-    </div>
-    <div class="wrapper wrapper-content">
-        <div class="row">
-            <div class="col-sm-4">
-
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>联系信息</h5>
-
-                    </div>
-                    <div class="ibox-content">
-                        <p><i class="fa fa-send-o"></i> 官网：<a href="http://www.ruoyi.vip" target="_blank">http://www.ruoyi.vip</a>
-                        </p>
-                        <p><i class="fa fa-qq"></i> QQ群：<s>满1389287</s> <s>满1679294</s> <s>满1529866</s> <s>满1772718</s> <s>满1366522</s> <s>满1382251</s> <s>满1145125</s> <s>满86752435</s> <s>满134072510</s> <s>满210336300</s> <s>满339522636</s> <s>满130035985</s> <s>满143151071</s> <s>满158781320</s> <s>满201531282</s> <s>满101526938</s> <s>满264355400</s> <s>满298522656</s> <s>满139845794</s>  <s>满185760789</s> <s>满175104288</s> <s>满174942938</s> <s>满287843737</s> <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=KTVAIhggR3rR3uZWK9A8kR4yYNREQ4jo&authKey=An4DUV9e7uK8I8VgBbp949z0ypQoDrOoqvVg%2FWOr2vuNNDMZUAMPvqHor6TFMIgz&noverify=0&group_code=232896766" target="_blank">232896766</a>
-                        </p>
-                        <p><i class="fa fa-weixin"></i> 微信：<a href="javascript:;">/ *若依</a>
-                        </p>
-                        <p><i class="fa fa-credit-card"></i> 支付宝：<a href="javascript:;" class="支付宝信息">/ *若依</a>
-                        </p>
-                    </div>
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>今日fear&greed index</h5>
                 </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>今日fear&greed index</h5>
+                <div class="ibox-content">
+                    <div class="alert alert-warning">
+                        请作者喝杯咖啡（点击图片放大）
                     </div>
-                    <div class="ibox-content">
-                        <div class="alert alert-warning">
-                            	请作者喝杯咖啡（点击图片放大）
-                        </div>
-                        <p id="pay-qrcode">
-                            <a href="javascript:;"><img th:src="@{/img/pay.png}" width="100%" alt="请使用手机支付宝或者微信扫码支付">
-                            </a>
-                        </p>
+                    <p id="pay-qrcode">
+                        <a href="javascript:;"><img th:src="@{/img/pay.png}" width="100%" alt="请使用手机支付宝或者微信扫码支付">
+                        </a>
+                    </p>
 
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <script th:src="@{/js/jquery.min.js}"></script>
-    <script th:src="@{/js/bootstrap.min.js}"></script>
-    <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
-    <script type="text/javascript">
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script type="text/javascript">
 	    $('#pay-qrcode').click(function(){
 	        var html=$(this).html();
 	        parent.layer.open({
@@ -115,6 +126,33 @@
 	            content: html
 	        });
 	    });
-    </script>
+
+</script>
+<script>
+        $(document).ready(function () {
+    $.ajax({
+        url: "/system/management/totalProfitLoss",
+        method: "GET",
+        success: function (response) {
+            console.log("接口响应：", response);
+            if (response.code === 0) {
+                let amount = response.data;
+                let displayElement = $("#total-profit-loss");
+                displayElement.text(amount.toLocaleString() + "$");
+                displayElement.css({
+                    "font-size": "24px", // 设置字体大小
+                    "color": amount > 0 ? "green" : amount < 0 ? "red" : "black" // 设置颜色
+                });
+            } else {
+                $("#total-profit-loss").text("获取失败");
+            }
+        },
+        error: function () {
+            $("#total-profit-loss").text("请求错误");
+        }
+    });
+});
+
+</script>
 </body>
 </html>

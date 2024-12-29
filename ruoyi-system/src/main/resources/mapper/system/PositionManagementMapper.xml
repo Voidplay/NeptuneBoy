@@ -55,6 +55,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
+    <select id="sumProfitLoss" resultType="BigDecimal">
+        SELECT IFNULL(SUM(profit_loss), 0)
+        FROM position_management
+    </select>
+
     <insert id="insertPositionManagement" parameterType="PositionManagement" useGeneratedKeys="true" keyProperty="id">
         insert into position_management
         <trim prefix="(" suffix=")" suffixOverrides=",">

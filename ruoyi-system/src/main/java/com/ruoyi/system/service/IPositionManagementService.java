@@ -1,5 +1,6 @@
 package com.ruoyi.system.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import com.ruoyi.system.domain.PositionManagement;
 
@@ -58,4 +59,6 @@ public interface IPositionManagementService
      * @return 结果
      */
     public int deletePositionManagementById(Long id);
+
+    public BigDecimal getTotalProfitLoss();
 }
