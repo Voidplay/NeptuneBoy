@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.RulesMapper">
+    
+    <resultMap type="Rules" id="RulesResult">
+        <result property="id"    column="id"    />
+        <result property="ruleName"    column="rule_name"    />
+        <result property="ruleType"    column="rule_type"    />
+        <result property="tradeType"    column="trade_type"    />
+        <result property="ruleDesc"    column="rule_desc"    />
+        <result property="errorMessage"    column="error_message"    />
+        <result property="isActive"    column="is_active"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updatedAt"    column="updated_at"    />
+    </resultMap>
+
+    <sql id="selectRulesVo">
+        select id, rule_name, rule_type, trade_type, rule_desc, error_message, is_active, created_at, updated_at from rules
+    </sql>
+
+    <select id="selectRulesList" parameterType="Rules" resultMap="RulesResult">
+        <include refid="selectRulesVo"/>
+        <where>  
+            <if test="ruleName != null  and ruleName != ''"> and rule_name like concat('%', #{ruleName}, '%')</if>
+            <if test="ruleType != null  and ruleType != ''"> and rule_type = #{ruleType}</if>
+            <if test="tradeType != null  and tradeType != ''"> and trade_type = #{tradeType}</if>
+            <if test="ruleDesc != null  and ruleDesc != ''"> and rule_desc = #{ruleDesc}</if>
+            <if test="errorMessage != null  and errorMessage != ''"> and error_message = #{errorMessage}</if>
+            <if test="isActive != null "> and is_active = #{isActive}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+            <if test="updatedAt != null "> and updated_at = #{updatedAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectRulesById" parameterType="Long" resultMap="RulesResult">
+        <include refid="selectRulesVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertRules" parameterType="Rules" useGeneratedKeys="true" keyProperty="id">
+        insert into rules
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ruleName != null and ruleName != ''">rule_name,</if>
+            <if test="ruleType != null and ruleType != ''">rule_type,</if>
+            <if test="tradeType != null and tradeType != ''">trade_type,</if>
+            <if test="ruleDesc != null and ruleDesc != ''">rule_desc,</if>
+            <if test="errorMessage != null">error_message,</if>
+            <if test="isActive != null">is_active,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ruleName != null and ruleName != ''">#{ruleName},</if>
+            <if test="ruleType != null and ruleType != ''">#{ruleType},</if>
+            <if test="tradeType != null and tradeType != ''">#{tradeType},</if>
+            <if test="ruleDesc != null and ruleDesc != ''">#{ruleDesc},</if>
+            <if test="errorMessage != null">#{errorMessage},</if>
+            <if test="isActive != null">#{isActive},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRules" parameterType="Rules">
+        update rules
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ruleName != null and ruleName != ''">rule_name = #{ruleName},</if>
+            <if test="ruleType != null and ruleType != ''">rule_type = #{ruleType},</if>
+            <if test="tradeType != null and tradeType != ''">trade_type = #{tradeType},</if>
+            <if test="ruleDesc != null and ruleDesc != ''">rule_desc = #{ruleDesc},</if>
+            <if test="errorMessage != null">error_message = #{errorMessage},</if>
+            <if test="isActive != null">is_active = #{isActive},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRulesById" parameterType="Long">
+        delete from rules where id = #{id}
+    </delete>
+
+    <delete id="deleteRulesByIds" parameterType="String">
+        delete from rules where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

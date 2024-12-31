@@ -98,7 +98,14 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">期权策略</label>
                 <div class="col-sm-8">
-                    <input name="optionStrategy" class="form-control" type="text">
+                    <select name="optionStrategy" class="form-control">
+                        <option value="Covered Call" selected>Covered Call</option>
+                        <option value="Cash Secured Put" selected>Cash Secured Put</option>
+                        <option value="Bull Call Spread" selected>Bull Call Spread</option>
+                        <option value="Bull Put Spread" selected>Bull Put Spread</option>
+                        <option value="Single-Leg Call" selected>Single-Leg Call</option>
+                        <option value="Single-Leg Put" selected>Single-Leg Put</option>
+                    </select>
                 </div>
             </div>
         </div>

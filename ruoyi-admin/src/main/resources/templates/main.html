@@ -58,7 +58,7 @@
             <li>注重决策而非结果。</li>
             <li>不要赔钱。</li>
             <li>利用AI</li>
-            <li>定时任务:Quartz。</li>
+            <li>你不需要一直去想着做交易，peace，等待错误定价的机会</li>
             <li>数据库连接池：Druid。</li>
             <li>工具类：Fastjson。</li>
             <li>更多……</li>
@@ -69,26 +69,9 @@
 <div class="wrapper wrapper-content">
     <div class="row">
         <div class="col-sm-4">
-
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>联系信息</h5>
-
-                </div>
-                <div class="ibox-content">
-                    <p><i class="fa fa-send-o"></i> 官网：<a href="http://www.ruoyi.vip" target="_blank">http://www.ruoyi.vip</a>
-                    </p>
-                    <p><i class="fa fa-qq"></i> QQ群：<s>满1389287</s> <s>满1679294</s> <s>满1529866</s> <s>满1772718</s> <s>满1366522</s>
-                        <s>满1382251</s> <s>满1145125</s> <s>满86752435</s> <s>满134072510</s> <s>满210336300</s> <s>满339522636</s>
-                        <s>满130035985</s> <s>满143151071</s> <s>满158781320</s> <s>满201531282</s> <s>满101526938</s> <s>满264355400</s>
-                        <s>满298522656</s> <s>满139845794</s> <s>满185760789</s> <s>满175104288</s> <s>满174942938</s> <s>满287843737</s>
-                        <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=KTVAIhggR3rR3uZWK9A8kR4yYNREQ4jo&authKey=An4DUV9e7uK8I8VgBbp949z0ypQoDrOoqvVg%2FWOr2vuNNDMZUAMPvqHor6TFMIgz&noverify=0&group_code=232896766"
-                           target="_blank">232896766</a>
-                    </p>
-                    <p><i class="fa fa-weixin"></i> 微信：<a href="javascript:;">/ *若依</a>
-                    </p>
-                    <p><i class="fa fa-credit-card"></i> 支付宝：<a href="javascript:;" class="支付宝信息">/ *若依</a>
-                    </p>
                 </div>
             </div>
         </div>
@@ -96,16 +79,6 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>今日fear&greed index</h5>
-                </div>
-                <div class="ibox-content">
-                    <div class="alert alert-warning">
-                        请作者喝杯咖啡（点击图片放大）
-                    </div>
-                    <p id="pay-qrcode">
-                        <a href="javascript:;"><img th:src="@{/img/pay.png}" width="100%" alt="请使用手机支付宝或者微信扫码支付">
-                        </a>
-                    </p>
-
                 </div>
             </div>
         </div>
@@ -140,7 +113,7 @@
                 let displayElement = $("#total-profit-loss");
                 displayElement.text(amount.toLocaleString() + "$");
                 displayElement.css({
-                    "font-size": "24px", // 设置字体大小
+                    "font-size": "36px", // 设置字体大小
                     "color": amount > 0 ? "green" : amount < 0 ? "red" : "black" // 设置颜色
                 });
             } else {
