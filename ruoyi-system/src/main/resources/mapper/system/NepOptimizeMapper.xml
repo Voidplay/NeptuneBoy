@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.NepOptimizeMapper">
+    
+    <resultMap type="NepOptimize" id="NepOptimizeResult">
+        <result property="id"    column="id"    />
+        <result property="isDone"    column="is_done"    />
+        <result property="detail"    column="detail"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updatedAt"    column="updated_at"    />
+        <result property="optimizeName"    column="optimize_name"    />
+    </resultMap>
+
+    <sql id="selectNepOptimizeVo">
+        select id, is_done, detail, created_at, updated_at, optimize_name from nep_optimize
+    </sql>
+
+    <select id="selectNepOptimizeList" parameterType="NepOptimize" resultMap="NepOptimizeResult">
+        <include refid="selectNepOptimizeVo"/>
+        <where>  
+            <if test="isDone != null  and isDone != ''"> and is_done = #{isDone}</if>
+            <if test="detail != null  and detail != ''"> and detail = #{detail}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+            <if test="updatedAt != null "> and updated_at = #{updatedAt}</if>
+            <if test="optimizeName != null  and optimizeName != ''"> and optimize_name like concat('%', #{optimizeName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectNepOptimizeById" parameterType="Long" resultMap="NepOptimizeResult">
+        <include refid="selectNepOptimizeVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNepOptimize" parameterType="NepOptimize" useGeneratedKeys="true" keyProperty="id">
+        insert into nep_optimize
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="isDone != null and isDone != ''">is_done,</if>
+            <if test="detail != null and detail != ''">detail,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+            <if test="optimizeName != null and optimizeName != ''">optimize_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="isDone != null and isDone != ''">#{isDone},</if>
+            <if test="detail != null and detail != ''">#{detail},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+            <if test="optimizeName != null and optimizeName != ''">#{optimizeName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNepOptimize" parameterType="NepOptimize">
+        update nep_optimize
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="isDone != null and isDone != ''">is_done = #{isDone},</if>
+            <if test="detail != null and detail != ''">detail = #{detail},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+            <if test="optimizeName != null and optimizeName != ''">optimize_name = #{optimizeName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNepOptimizeById" parameterType="Long">
+        delete from nep_optimize where id = #{id}
+    </delete>
+
+    <delete id="deleteNepOptimizeByIds" parameterType="String">
+        delete from nep_optimize where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
