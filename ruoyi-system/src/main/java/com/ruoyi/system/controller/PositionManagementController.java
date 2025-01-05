@@ -2,6 +2,8 @@ package com.ruoyi.system.controller;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -132,4 +134,17 @@ public class PositionManagementController extends BaseController
         BigDecimal totalProfitLoss = positionManagementService.getTotalProfitLoss();
         return AjaxResult.success(totalProfitLoss);
     }
+
+    @ResponseBody
+    @GetMapping("/profitLossCounts")
+    public AjaxResult getProfitLossCounts() {
+        try {
+            Map<String, Integer> profitLossCounts = positionManagementService.getProfitLossCount();
+            return AjaxResult.success("盈亏次数统计成功", profitLossCounts);
+        } catch (Exception e) {
+            return AjaxResult.error("获取盈亏次数统计失败：" + e.getMessage());
+        }
+    }
+
+
 }

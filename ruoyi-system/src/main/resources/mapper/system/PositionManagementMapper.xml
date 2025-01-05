@@ -137,4 +137,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
+    <select id="selectProfitLossCount" resultType="map">
+        SELECT
+        SUM(CASE WHEN is_profitable = '是' THEN 1 ELSE 0 END) AS profit_count,
+        SUM(CASE WHEN is_profitable = '否' THEN 1 ELSE 0 END) AS loss_count
+        FROM position_management
+    </select>
+
+
 </mapper>

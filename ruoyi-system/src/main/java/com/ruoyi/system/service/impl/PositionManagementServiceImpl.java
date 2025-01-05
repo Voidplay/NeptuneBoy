@@ -2,6 +2,8 @@ package com.ruoyi.system.service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -99,6 +101,10 @@ public class PositionManagementServiceImpl implements IPositionManagementService
     @Override
     public BigDecimal getTotalProfitLoss() {
         return positionManagementMapper.sumProfitLoss();
+    }
+
+    public Map<String, Integer> getProfitLossCount() {
+        return positionManagementMapper.selectProfitLossCount();
     }
 
 }

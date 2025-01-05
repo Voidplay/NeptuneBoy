@@ -2,6 +2,8 @@ package com.ruoyi.system.mapper;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.system.domain.PositionManagement;
 
 /**
@@ -61,4 +63,6 @@ public interface PositionManagementMapper
     public int deletePositionManagementByIds(String[] ids);
 
     public BigDecimal sumProfitLoss();
+
+    public Map<String,Integer> selectProfitLossCount();
 }

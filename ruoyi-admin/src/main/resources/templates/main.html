@@ -23,14 +23,13 @@
             <h3>总盈亏金额</h3>
             <p id="total-profit-loss">加载中...</p>
         </div>
-    </div>
-    <div class="col-sm-3">
-        <h2>Hello,Guest</h2>
-        <small>移动设备访问请扫描以下二维码：</small>
-        <br>
-        <br>
-        <img th:src="@{/img/qr_code.png}" width="100%" style="max-width:264px;">
-        <br>
+        <div class="ibox-title">
+            <h5>盈亏次数统计</h5>
+        </div>
+        <div class="ibox-content">
+            <p>盈利次数：<span id="profitCount">加载中...</span></p>
+            <p>亏损次数：<span id="lossCount">加载中...</span></p>
+        </div>
     </div>
     <div class="col-sm-5">
         <h2>常用地址集合</h2>
@@ -125,6 +124,43 @@
         }
     });
 });
+
+$(document).ready(function () {
+    // 定义接口地址
+    var url = "/system/management/profitLossCounts";
+
+    // 发起 AJAX 请求
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            // 检查返回的 code 是否为 0（表示成功）
+            if (response.code === 0) {
+                // 从 data 中提取 profit_count 和 loss_count
+                var profitCount = response.data.profit_count || 0;
+                var lossCount = response.data.loss_count || 0;
+
+                // 更新页面的显示
+                $("#profitCount").text(profitCount);
+                $("#lossCount").text(lossCount);
+            } else {
+                // 错误处理
+                $("#profitCount").text("加载失败");
+                $("#lossCount").text("加载失败");
+                console.error("获取盈亏次数失败：" + response.msg);
+            }
+        },
+        error: function (xhr, status, error) {
+            // 网络或服务器错误处理
+            $("#profitCount").text("加载失败");
+            $("#lossCount").text("加载失败");
+            console.error("请求错误：" + error);
+        }
+    });
+});
+
+
 
 </script>
 </body>
