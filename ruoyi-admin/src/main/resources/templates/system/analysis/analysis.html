@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('交易分析报表')" />
+    <!-- 引入Select2 -->
+    <th:block th:include="include :: select2-css" />
+    <!-- 引入ECharts -->
+    <th:block th:include="include :: bootstrap-select-css" />
+    <link th:href="@{/ajax/libs/echarts/echarts.min.js}" rel="stylesheet"/>
+</head>
+<body class="gray-bg">
+    <div class="container-div">
+        <div class="row">
+            <!-- 搜索条件 -->
+            <div class="col-sm-12 search-collapse">
+                <form id="analysis-form">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>券商账户：</label>
+                                <select name="accountName" class="form-control">
+                                    <option value="">所有</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>日期范围：</label>
+                                <input type="text" class="time-input" id="daterange" placeholder="请选择日期范围"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="searchAnalysis()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="resetAnalysis()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 统计卡片 -->
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>总收益</h5>
+                                <h1 class="no-margins" id="totalProfit">0.00</h1>
+                                <div class="stat-percent font-bold text-success" id="profitPercent">0%</div>
+                                <small>收益率</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>胜率</h5>
+                                <h1 class="no-margins" id="winRate">0%</h1>
+                                <div class="stat-percent font-bold text-info" id="tradeCount">0</div>
+                                <small>交易次数</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>最大回撤</h5>
+                                <h1 class="no-margins" id="maxDrawdown">0%</h1>
+                                <div class="stat-percent font-bold text-warning" id="drawdownDate">-</div>
+                                <small>发生日期</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>夏普比率</h5>
+                                <h1 class="no-margins" id="sharpeRatio">0.00</h1>
+                                <div class="stat-percent font-bold text-navy">年化</div>
+                                <small>风险调整收益</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图表区域 -->
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="ibox">
+                            <div class="ibox-title">
+                                <h5>收益走势</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <div id="profitChart" style="height:400px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="ibox">
+                            <div class="ibox-title">
+                                <h5>持仓市值</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <div id="positionChart" style="height:400px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: select2-js" />
+    <script th:src="@{/ajax/libs/echarts/echarts.min.js}"></script>
+    
+    <script th:inline="javascript">
+        var prefix = ctx + "system/analysis";
+        
+        $(function() {
+            loadAccountList();
+            initDateRange();
+            initCharts();
+            loadLatestAnalysis();
+        });
+
+        function loadAccountList() {
+            $.ajax({
+                url: prefix + '/accounts',
+                type: 'get',
+                success: function(response) {
+                    var $select = $('select[name="accountName"]');
+                    $select.empty();
+                    $select.append('<option value="">所有</option>');
+                    $.each(response.data, function(index, account) {
+                        $select.append('<option value="' + account + '">' + account + '</option>');
+                    });
+                    $select.select2();
+                }
+            });
+        }
+
+        function initDateRange() {
+            $('#daterange').daterangepicker({
+                autoUpdateInput: false,
+                showDropdowns: true,
+                ranges: {
+                    '今天': [moment(), moment()],
+                    '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    '最近7天': [moment().subtract(6, 'days'), moment()],
+                    '最近30天': [moment().subtract(29, 'days'), moment()],
+                    '本月': [moment().startOf('month'), moment().endOf('month')],
+                    '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                locale: {
+                    format: 'YYYY-MM-DD',
+                    applyLabel: '确定',
+                    cancelLabel: '取消',
+                    fromLabel: '从',
+                    toLabel: '到',
+                    customRangeLabel: '自定义',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+                        '七月', '八月', '九月', '十月', '十一月', '十二月']
+                }
+            });
+        }
+
+        function loadLatestAnalysis() {
+            var accountName = $('select[name="accountName"]').val();
+            $.ajax({
+                url: prefix + '/latest',
+                type: 'get',
+                data: {
+                    accountName: accountName
+                },
+                success: function(response) {
+                    if (response.code === 0) {
+                        updateStatistics(response.data);
+                    }
+                }
+            });
+        }
+
+        function updateStatistics(data) {
+            $('#totalProfit').text(data.totalProfit.toFixed(2));
+            $('#profitPercent').text((data.profitPercent * 100).toFixed(2) + '%');
+            $('#winRate').text((data.winRate * 100).toFixed(2) + '%');
+            $('#tradeCount').text(data.tradeCount);
+            $('#maxDrawdown').text((data.maxDrawdown * 100).toFixed(2) + '%');
+            $('#drawdownDate').text(data.drawdownDate);
+            $('#sharpeRatio').text(data.sharpeRatio.toFixed(2));
+        }
+
+        var profitChart, positionChart;
+        
+        function initCharts() {
+            profitChart = echarts.init(document.getElementById('profitChart'));
+            positionChart = echarts.init(document.getElementById('positionChart'));
+            
+            loadChartData();
+            
+            $(window).on('resize', function() {
+                profitChart.resize();
+                positionChart.resize();
+            });
+        }
+
+        function loadChartData() {
+            var accountName = $('select[name="accountName"]').val();
+            var dateRange = $('#daterange').val();
+            
+            // 加载收益走势
+            $.ajax({
+                url: prefix + '/dailyProfit',
+                type: 'get',
+                data: {
+                    accountName: accountName,
+                    dateRange: dateRange
+                },
+                success: function(response) {
+                    if (response.code === 0) {
+                        updateProfitChart(response.data);
+                    }
+                }
+            });
+            
+            // 加载持仓市值
+            $.ajax({
+                url: prefix + '/positionValue',
+                type: 'get',
+                data: {
+                    accountName: accountName,
+                    dateRange: dateRange
+                },
+                success: function(response) {
+                    if (response.code === 0) {
+                        updatePositionChart(response.data);
+                    }
+                }
+            });
+        }
+
+        function updateProfitChart(data) {
+            var option = {
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: function(params) {
+                        var date = params[0].name;
+                        var profit = params[0].value;
+                        return date + '<br/>' + '收益: ' + profit.toFixed(2);
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    data: data.dates
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '收益'
+                },
+                series: [{
+                    data: data.profits,
+                    type: 'line',
+                    smooth: true
+                }]
+            };
+            profitChart.setOption(option);
+        }
+
+        function updatePositionChart(data) {
+            var option = {
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: function(params) {
+                        var date = params[0].name;
+                        var value = params[0].value;
+                        return date + '<br/>' + '市值: ' + value.toFixed(2);
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    data: data.dates
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '市值'
+                },
+                series: [{
+                    data: data.values,
+                    type: 'line',
+                    smooth: true,
+                    areaStyle: {}
+                }]
+            };
+            positionChart.setOption(option);
+        }
+
+        function searchAnalysis() {
+            loadLatestAnalysis();
+            loadChartData();
+        }
+
+        function resetAnalysis() {
+            $('#analysis-form')[0].reset();
+            searchAnalysis();
+        }
+    </script>
+</body>
+</html>

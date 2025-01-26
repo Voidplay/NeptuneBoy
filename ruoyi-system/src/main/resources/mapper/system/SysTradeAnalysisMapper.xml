@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysTradeAnalysisMapper">
+    
+    <resultMap type="SysTradeAnalysis" id="TradeAnalysisResult">
+        <id     property="analysisId"      column="analysis_id"      />
+        <result property="accountName"     column="account_name"     />
+        <result property="analysisDate"    column="analysis_date"    />
+        <result property="totalProfit"     column="total_profit"     />
+        <result property="dailyProfit"     column="daily_profit"     />
+        <result property="winRate"         column="win_rate"         />
+        <result property="maxDrawdown"     column="max_drawdown"     />
+        <result property="sharpeRatio"     column="sharpe_ratio"     />
+        <result property="positionValue"   column="position_value"   />
+        <result property="cashBalance"     column="cash_balance"     />
+        <result property="tradeCount"      column="trade_count"      />
+        <result property="createBy"        column="create_by"        />
+        <result property="createTime"      column="create_time"      />
+        <result property="updateBy"        column="update_by"        />
+        <result property="updateTime"      column="update_time"      />
+    </resultMap>
+    
+    <sql id="selectTradeAnalysisVo">
+        select analysis_id, account_name, analysis_date, total_profit, daily_profit, 
+        win_rate, max_drawdown, sharpe_ratio, position_value, cash_balance, trade_count,
+        create_by, create_time, update_by, update_time
+        from sys_trade_analysis
+    </sql>
+    
+    <select id="selectTradeAnalysisList" parameterType="SysTradeAnalysis" resultMap="TradeAnalysisResult">
+        <include refid="selectTradeAnalysisVo"/>
+        <where>
+            <if test="accountName != null and accountName != ''">
+                AND account_name like concat('%', #{accountName}, '%')
+            </if>
+            <if test="analysisDate != null">
+                AND analysis_date = #{analysisDate}
+            </if>
+        </where>
+        order by analysis_date desc
+    </select>
+    
+    <select id="selectDailyProfitTrend" parameterType="SysTradeAnalysis" resultMap="TradeAnalysisResult">
+        <include refid="selectTradeAnalysisVo"/>
+        <where>
+            <if test="accountName != null and accountName != ''">
+                AND account_name = #{accountName}
+            </if>
+        </where>
+        order by analysis_date asc
+    </select>
+    
+    <select id="selectLatestAnalysis" parameterType="String" resultMap="TradeAnalysisResult">
+        <include refid="selectTradeAnalysisVo"/>
+        where account_name = #{accountName}
+        order by analysis_date desc limit 1
+    </select>
+    
+    <insert id="insertTradeAnalysis" parameterType="SysTradeAnalysis">
+        insert into sys_trade_analysis (
+            account_name, analysis_date, total_profit, daily_profit, win_rate,
+            max_drawdown, sharpe_ratio, position_value, cash_balance, trade_count,
+            create_by, create_time, update_by, update_time
+        ) values (
+            #{accountName}, #{analysisDate}, #{totalProfit}, #{dailyProfit}, #{winRate},
+            #{maxDrawdown}, #{sharpeRatio}, #{positionValue}, #{cashBalance}, #{tradeCount},
+            #{createBy}, sysdate(), #{updateBy}, sysdate()
+        )
+    </insert>
+    
+    <update id="updateTradeAnalysis" parameterType="SysTradeAnalysis">
+        update sys_trade_analysis
+        <set>
+            <if test="totalProfit != null">total_profit = #{totalProfit},</if>
+            <if test="dailyProfit != null">daily_profit = #{dailyProfit},</if>
+            <if test="winRate != null">win_rate = #{winRate},</if>
+            <if test="maxDrawdown != null">max_drawdown = #{maxDrawdown},</if>
+            <if test="sharpeRatio != null">sharpe_ratio = #{sharpeRatio},</if>
+            <if test="positionValue != null">position_value = #{positionValue},</if>
+            <if test="cashBalance != null">cash_balance = #{cashBalance},</if>
+            <if test="tradeCount != null">trade_count = #{tradeCount},</if>
+            update_time = sysdate()
+        </set>
+        where analysis_id = #{analysisId}
+    </update>
+</mapper>
