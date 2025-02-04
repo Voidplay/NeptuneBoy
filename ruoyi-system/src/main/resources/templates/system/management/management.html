@@ -94,8 +94,75 @@
         </div>
     </div>
 </div>
+<!-- 平仓表单 -->
+<div id="closePositionModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">平仓</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="closePositionForm">
+                    <input type="hidden" id="closePositionId" name="id">
+
+                    <div class="form-group">
+                        <label>是否已平仓</label>
+                        <select id="isClosed" name="isClosed" class="form-control">
+                            <option value="1">是</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>盈亏金额</label>
+                        <input type="text" id="profitLoss" name="profitLoss" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>平仓单价</label>
+                        <input type="text" id="closingPrice" name="closingPrice" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>平仓总价</label>
+                        <input type="text" id="closingTotalPrice" name="closingTotalPrice" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>平仓日期</label>
+                        <div class="input-group date" id="closingDatePicker">
+                            <input type="text" id="closingDate" name="closingDate" class="form-control" placeholder="yyyy-MM-dd">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="submitCloseForm()">提交</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <th:block th:include="include :: footer"/>
 <script th:inline="javascript">
+
+
+function openCloseModal(id) {
+    $("#closePositionId").val(id); // 记录要平仓的仓位 ID
+    $("#profitLoss").val('');
+    $("#closingPrice").val('');
+    $("#closingTotalPrice").val('');
+    $("#closingDate").val('');
+    $("#closePositionModal").modal('show'); // 确保 ID 匹配
+}
+
+
         var editFlag = [[${@permission.hasPermi('system:management:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:management:remove')}]];
         var prefix = ctx + "system/management";
@@ -186,12 +253,60 @@
                         var actions = [];
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        // 只有未平仓的仓位才能平仓
+                        if (row.isClosed == 0) {
+                        actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="openCloseModal(\'' + row.id + '\')"><i class="fa fa-sign-out"></i> 平仓</a>');
+                        }
                         return actions.join('');
                     }
                 }]
             };
             $.table.init(options);
         });
+
+function submitCloseForm() {
+    var data = $("#closePositionForm").serialize(); // 序列化表单数据
+
+    // 校验数据
+    if (!$("#profitLoss").val() || !$("#closingPrice").val() || !$("#closingTotalPrice").val() || !$("#closingDate").val()) {
+        alert("请填写完整的平仓信息！");
+        return;
+    }
+
+    $.ajax({
+        type: "POST",
+        url: prefix + "/close",
+        data: data,
+        success: function(response) {
+            if (response.code === 0) {
+                alert("平仓成功！");
+                $("#closePositionModal").modal('hide');
+                $.table.refresh();
+            } else {
+                alert("平仓失败：" + response.msg);
+            }
+        }
+    });
+}
+
+
+$(function() {
+    $(".time-input").datetimepicker({
+        format: "yyyy-mm-dd",
+        minView: "month",
+        autoclose: true
+    });
+});
+
+$(document).ready(function() {
+    $('#closingDatePicker').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayHighlight: true,
+        orientation: "bottom"
+    });
+});
+
 </script>
 </body>
 </html>

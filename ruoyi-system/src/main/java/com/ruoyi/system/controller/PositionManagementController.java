@@ -1,18 +1,16 @@
 package com.ruoyi.system.controller;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.system.domain.PositionManagement;
@@ -145,6 +143,35 @@ public class PositionManagementController extends BaseController
             return AjaxResult.error("获取盈亏次数统计失败：" + e.getMessage());
         }
     }
+
+    @PostMapping("/close")
+    @ResponseBody
+    public AjaxResult closePosition(@RequestParam Long id,
+                                    @RequestParam BigDecimal profitLoss,
+                                    @RequestParam BigDecimal closingPrice,
+                                    @RequestParam BigDecimal closingTotalPrice,
+                                    @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date closingDate) {
+        // 1. 获取仓位
+        PositionManagement position = positionManagementService.selectPositionManagementById(id);
+        if (position == null) {
+            return AjaxResult.error("仓位不存在");
+        }
+
+        // 2. 更新仓位信息
+        PositionManagement SetPosition = new PositionManagement();
+        SetPosition.setId(id);
+        SetPosition.setIsClosed(1); // 设置为已平仓
+        SetPosition.setProfitLoss(profitLoss);
+        SetPosition.setClosingPrice(closingPrice);
+        SetPosition.setClosingTotalPrice(closingTotalPrice);
+        SetPosition.setClosingDate(closingDate);
+
+        // 3. 保存更新
+        int result = positionManagementService.updatePositionManagement(SetPosition);
+        return result > 0 ? AjaxResult.success("平仓成功") : AjaxResult.error("平仓失败");
+    }
+
+
 
 
 }
