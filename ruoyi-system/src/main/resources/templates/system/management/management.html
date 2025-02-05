@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap (必须) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap Datepicker (核心) -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <th:block th:include="include :: header('仓位管理，用于记录正股和期权的仓位详情列表')"/>
 </head>
 <body class="gray-bg">
@@ -132,11 +142,15 @@
 
                     <div class="form-group">
                         <label>平仓日期</label>
+
                         <div class="input-group date" id="closingDatePicker">
-                            <input type="text" id="closingDate" name="closingDate" class="form-control" placeholder="yyyy-MM-dd">
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input type="text" id="closingDate" name="closingDate" class="form-control"
+                                   placeholder="yyyy-MM-dd">
+                            <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
                         </div>
+
                     </div>
+
 
                 </form>
             </div>
@@ -150,6 +164,7 @@
 
 
 <th:block th:include="include :: footer"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script th:inline="javascript">
 
 
@@ -290,22 +305,27 @@ function submitCloseForm() {
 }
 
 
-$(function() {
-    $(".time-input").datetimepicker({
-        format: "yyyy-mm-dd",
-        minView: "month",
-        autoclose: true
+
+$(document).ready(function() {
+    // 确保 bootstrap-datepicker 被正确加载
+    if ($.fn.datepicker) {
+        console.log("✅ bootstrap-datepicker 加载成功");
+    } else {
+        console.error("❌ bootstrap-datepicker 加载失败");
+    }
+
+    // 监听模态框打开事件，确保 Datepicker 被初始化
+    $('#closePositionModal').on('shown.bs.modal', function () {
+        $('#closingDatePicker').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true,
+            orientation: "bottom"
+        }).datepicker('update', new Date()); // 默认填充当前日期
     });
 });
 
-$(document).ready(function() {
-    $('#closingDatePicker').datepicker({
-        format: 'yyyy-mm-dd',
-        autoclose: true,
-        todayHighlight: true,
-        orientation: "bottom"
-    });
-});
+
 
 </script>
 </body>
