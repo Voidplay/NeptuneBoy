@@ -9,6 +9,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
@@ -169,6 +170,13 @@ public class PositionManagementController extends BaseController
         // 3. 保存更新
         int result = positionManagementService.updatePositionManagement(SetPosition);
         return result > 0 ? AjaxResult.success("平仓成功") : AjaxResult.error("平仓失败");
+    }
+
+    @GetMapping("/tradeAnalysis/{positionId}")
+    public String tradeAnalysis(@PathVariable("positionId") Long positionId, Model model) {
+        // 将 positionId 传递到前端，方便查询相关数据
+        model.addAttribute("positionId", positionId);
+        return "system/management/tradeAnalysis"; // 返回 tradeAnalysis.html
     }
 
 

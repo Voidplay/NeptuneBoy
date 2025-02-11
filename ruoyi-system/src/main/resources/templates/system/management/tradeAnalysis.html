@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>交易分析</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- 自定义样式 -->
+    <style>
+        .nav-tabs {
+            margin-bottom: 20px;
+        }
+        .tab-content {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-top: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>交易分析</h2>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#openingReason">开仓原因</a></li>
+        <li><a data-toggle="tab" href="#holdingRecord">持仓时记录</a></li>
+        <li><a data-toggle="tab" href="#closingReview">平仓后复盘</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- 开仓原因 -->
+        <div id="openingReason" class="tab-pane fade in active">
+            <h3>开仓原因</h3>
+            <textarea id="openingReasonText" class="form-control" rows="5" placeholder="填写开仓原因..."></textarea>
+            <button class="btn btn-primary" onclick="saveAnalysis('openingReason')">保存</button>
+        </div>
+
+        <!-- 持仓时记录 -->
+        <div id="holdingRecord" class="tab-pane fade">
+            <h3>持仓时记录</h3>
+            <textarea id="holdingRecordText" class="form-control" rows="5" placeholder="填写持仓记录..."></textarea>
+            <button class="btn btn-primary" onclick="saveAnalysis('holdingRecord')">保存</button>
+        </div>
+
+        <!-- 平仓后复盘 -->
+        <div id="closingReview" class="tab-pane fade">
+            <h3>平仓后复盘</h3>
+            <textarea id="closingReviewText" class="form-control" rows="5" placeholder="填写复盘分析..."></textarea>
+            <button class="btn btn-primary" onclick="saveAnalysis('closingReview')">保存</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function saveAnalysis(type) {
+        var data = {
+            positionId: [[${positionId}]], // 绑定仓位 ID
+            content: $('#' + type + 'Text').val()
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/system/management/tradeAnalysis/save',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function(response) {
+                alert('保存成功！');
+            },
+            error: function() {
+                alert('保存失败，请重试！');
+            }
+        });
+    }
+</script>
+</body>
+</html>
