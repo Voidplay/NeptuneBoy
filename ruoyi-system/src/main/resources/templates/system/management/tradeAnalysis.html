@@ -37,36 +37,48 @@
         <div id="openingReason" class="tab-pane fade in active">
             <h3>开仓原因</h3>
             <textarea id="openingReasonText" class="form-control" rows="5" placeholder="填写开仓原因..."></textarea>
-            <button class="btn btn-primary" onclick="saveAnalysis('openingReason')">保存</button>
+            <button class="btn btn-primary" onclick="saveAnalysis('openingReason', 'reason')">保存</button>
         </div>
 
         <!-- 持仓时记录 -->
         <div id="holdingRecord" class="tab-pane fade">
             <h3>持仓时记录</h3>
             <textarea id="holdingRecordText" class="form-control" rows="5" placeholder="填写持仓记录..."></textarea>
-            <button class="btn btn-primary" onclick="saveAnalysis('holdingRecord')">保存</button>
+            <button class="btn btn-primary" onclick="saveAnalysis('holdingRecord', 'notes')">保存</button>
         </div>
 
         <!-- 平仓后复盘 -->
         <div id="closingReview" class="tab-pane fade">
             <h3>平仓后复盘</h3>
             <textarea id="closingReviewText" class="form-control" rows="5" placeholder="填写复盘分析..."></textarea>
-            <button class="btn btn-primary" onclick="saveAnalysis('closingReview')">保存</button>
+            <button class="btn btn-primary" onclick="saveAnalysis('closingReview', 'review')">保存</button>
         </div>
     </div>
 </div>
 
 <script>
     function saveAnalysis(type) {
-        var data = {
-            positionId: [[${positionId}]], // 绑定仓位 ID
-            content: $('#' + type + 'Text').val()
+        var apiMap = {
+            "openingReason": "/system/openingReason/add",
+            "holdingRecord": "/system/holdingNotes/add",
+            "closingReview": "/system/closingReview/add"
         };
+
+        var dataMap = {
+            "openingReason": { analysisId: [[${positionId}]], reason: $('#' + type + 'Text').val() },
+            "holdingRecord": { analysisId: [[${positionId}]], notes: $('#' + type + 'Text').val() },
+            "closingReview": { analysisId: [[${positionId}]], review: $('#' + type + 'Text').val() }
+        };
+
+        if (!apiMap[type]) {
+            alert("无效的类型: " + type);
+            return;
+        }
 
         $.ajax({
             type: 'POST',
-            url: '/system/management/tradeAnalysis/save',
-            data: JSON.stringify(data),
+            url: apiMap[type],
+            data: JSON.stringify(dataMap[type]),
             contentType: 'application/json',
             success: function(response) {
                 alert('保存成功！');

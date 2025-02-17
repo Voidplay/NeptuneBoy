@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.HoldingNotesMapper">
+    
+    <resultMap type="HoldingNotes" id="HoldingNotesResult">
+        <result property="id"    column="id"    />
+        <result property="analysisId"    column="analysis_id"    />
+        <result property="notes"    column="notes"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updatedAt"    column="updated_at"    />
+    </resultMap>
+
+    <sql id="selectHoldingNotesVo">
+        select id, analysis_id, notes, created_at, updated_at from holding_notes
+    </sql>
+
+    <select id="selectHoldingNotesList" parameterType="HoldingNotes" resultMap="HoldingNotesResult">
+        <include refid="selectHoldingNotesVo"/>
+        <where>  
+            <if test="analysisId != null "> and analysis_id = #{analysisId}</if>
+            <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+            <if test="updatedAt != null "> and updated_at = #{updatedAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectHoldingNotesById" parameterType="Long" resultMap="HoldingNotesResult">
+        <include refid="selectHoldingNotesVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertHoldingNotes" parameterType="HoldingNotes" useGeneratedKeys="true" keyProperty="id">
+        insert into holding_notes
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="analysisId != null">analysis_id,</if>
+            <if test="notes != null">notes,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="analysisId != null">#{analysisId},</if>
+            <if test="notes != null">#{notes},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHoldingNotes" parameterType="HoldingNotes">
+        update holding_notes
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="analysisId != null">analysis_id = #{analysisId},</if>
+            <if test="notes != null">notes = #{notes},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteHoldingNotesById" parameterType="Long">
+        delete from holding_notes where id = #{id}
+    </delete>
+
+    <delete id="deleteHoldingNotesByIds" parameterType="String">
+        delete from holding_notes where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

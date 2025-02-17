@@ -15,7 +15,7 @@ import com.ruoyi.system.domain.SysTradeAnalysis;
 import com.ruoyi.system.service.ISysTradeAnalysisService;
 
 @Controller
-@RequestMapping("/system/analysis")
+@RequestMapping("/system/tradeAnalysis")
 public class SysTradeAnalysisController extends BaseController {
     private String prefix = "system/analysis";
 
