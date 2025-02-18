@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.ClosingReview;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 【请填写功能名称】Mapper接口
@@ -58,4 +59,7 @@ public interface ClosingReviewMapper
      * @return 结果
      */
     public int deleteClosingReviewByIds(String[] ids);
+
+    ClosingReview selectClosingReviewByPositionId(@Param("positionId") Long positionId);
+
 }

@@ -20,9 +20,9 @@ public class ClosingReview extends BaseEntity
     /** $column.columnComment */
     private Long id;
 
-    /** 关联交易分析ID */
-    @Excel(name = "关联交易分析ID")
-    private Long analysisId;
+    /** 关联仓位ID */
+    @Excel(name = "关联仓位ID")
+    private Long positionId;
 
     /** 平仓后的复盘 */
     @Excel(name = "平仓后的复盘")
@@ -48,14 +48,14 @@ public class ClosingReview extends BaseEntity
         return id;
     }
 
-    public void setAnalysisId(Long analysisId) 
+    public void getPositionId(Long analysisId)
     {
-        this.analysisId = analysisId;
+        this.positionId = analysisId;
     }
 
-    public Long getAnalysisId() 
+    public Long getPositionId()
     {
-        return analysisId;
+        return positionId;
     }
 
     public void setReview(String review) 
@@ -92,7 +92,7 @@ public class ClosingReview extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
-            .append("analysisId", getAnalysisId())
+            .append("positionId", getPositionId())
             .append("review", getReview())
             .append("createdAt", getCreatedAt())
             .append("updatedAt", getUpdatedAt())

@@ -5,11 +5,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.system.domain.ClosingReview;
@@ -123,5 +119,19 @@ public class ClosingReviewController extends BaseController
     public AjaxResult remove(String ids)
     {
         return toAjax(closingReviewService.deleteClosingReviewByIds(ids));
+    }
+
+    /**
+     * 根据 positionId 查询平仓后复盘
+     */
+    @GetMapping("/getByPositionId")
+    @ResponseBody
+    public AjaxResult getByPositionId(@RequestParam("positionId") Long positionId) {
+        ClosingReview closingReview = closingReviewService.selectClosingReviewByPositionId(positionId);
+        if (closingReview != null) {
+            return AjaxResult.success(closingReview);
+        } else {
+            return AjaxResult.error("未找到对应的平仓后复盘");
+        }
     }
 }

@@ -91,4 +91,10 @@ public class OpeningReasonServiceImpl implements IOpeningReasonService
     {
         return openingReasonMapper.deleteOpeningReasonById(id);
     }
+
+    @Override
+    public OpeningReason selectOpeningReasonByPositionId(Long positionId) {
+        return openingReasonMapper.selectOpeningReasonByPositionId(positionId);
+    }
+
 }

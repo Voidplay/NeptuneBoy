@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.OpeningReason;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 【请填写功能名称】Mapper接口
@@ -58,4 +59,8 @@ public interface OpeningReasonMapper
      * @return 结果
      */
     public int deleteOpeningReasonByIds(String[] ids);
+
+    OpeningReason selectOpeningReasonByPositionId(@Param("positionId") Long positionId);
+
+
 }

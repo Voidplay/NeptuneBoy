@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.HoldingNotesMapper">
-    
+
     <resultMap type="HoldingNotes" id="HoldingNotesResult">
         <result property="id"    column="id"    />
-        <result property="analysisId"    column="analysis_id"    />
+        <result property="positionId"    column="position_id"    />
         <result property="notes"    column="notes"    />
         <result property="createdAt"    column="created_at"    />
         <result property="updatedAt"    column="updated_at"    />
     </resultMap>
 
     <sql id="selectHoldingNotesVo">
-        select id, analysis_id, notes, created_at, updated_at from holding_notes
+        select id, position_id, notes, created_at, updated_at from holding_notes
     </sql>
 
     <select id="selectHoldingNotesList" parameterType="HoldingNotes" resultMap="HoldingNotesResult">
         <include refid="selectHoldingNotesVo"/>
-        <where>  
-            <if test="analysisId != null "> and analysis_id = #{analysisId}</if>
+        <where>
+            <if test="positionId != null "> and position_id = #{positionId}</if>
             <if test="notes != null  and notes != ''"> and notes = #{notes}</if>
             <if test="createdAt != null "> and created_at = #{createdAt}</if>
             <if test="updatedAt != null "> and updated_at = #{updatedAt}</if>
         </where>
     </select>
-    
+
     <select id="selectHoldingNotesById" parameterType="Long" resultMap="HoldingNotesResult">
         <include refid="selectHoldingNotesVo"/>
         where id = #{id}
@@ -34,23 +34,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertHoldingNotes" parameterType="HoldingNotes" useGeneratedKeys="true" keyProperty="id">
         insert into holding_notes
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="analysisId != null">analysis_id,</if>
+            <if test="positionId != null">position_id,</if>
             <if test="notes != null">notes,</if>
             <if test="createdAt != null">created_at,</if>
             <if test="updatedAt != null">updated_at,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="analysisId != null">#{analysisId},</if>
+            <if test="positionId != null">#{positionId},</if>
             <if test="notes != null">#{notes},</if>
             <if test="createdAt != null">#{createdAt},</if>
             <if test="updatedAt != null">#{updatedAt},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateHoldingNotes" parameterType="HoldingNotes">
         update holding_notes
         <trim prefix="SET" suffixOverrides=",">
-            <if test="analysisId != null">analysis_id = #{analysisId},</if>
+            <if test="positionId != null">position_id = #{positionId},</if>
             <if test="notes != null">notes = #{notes},</if>
             <if test="createdAt != null">created_at = #{createdAt},</if>
             <if test="updatedAt != null">updated_at = #{updatedAt},</if>
@@ -63,10 +63,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteHoldingNotesByIds" parameterType="String">
-        delete from holding_notes where id in 
+        delete from holding_notes where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
+
+    <select id="selectHoldingNotesByPositionId" resultType="com.ruoyi.system.domain.HoldingNotes">
+        SELECT * FROM holding_notes WHERE position_id = #{positionId} LIMIT 1
+    </select>
+
 
 </mapper>

@@ -91,4 +91,10 @@ public class HoldingNotesServiceImpl implements IHoldingNotesService
     {
         return holdingNotesMapper.deleteHoldingNotesById(id);
     }
+
+    @Override
+    public HoldingNotes selectHoldingNotesByPositionId(Long positionId) {
+        return holdingNotesMapper.selectHoldingNotesByPositionId(positionId);
+    }
+
 }

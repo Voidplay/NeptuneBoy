@@ -9,20 +9,20 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 【请填写功能名称】对象 holding_notes
- * 
+ *
  * @author ruoyi
- * @date 2025-02-13
+ * @date 2025-02-18
  */
 public class HoldingNotes extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** $column.columnComment */
+    /**  */
     private Long id;
 
-    /** 关联交易分析ID */
-    @Excel(name = "关联交易分析ID")
-    private Long analysisId;
+    /** $column.columnComment */
+    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    private Long positionId;
 
     /** 持仓期间的记录 */
     @Excel(name = "持仓期间的记录")
@@ -38,52 +38,52 @@ public class HoldingNotes extends BaseEntity
     @Excel(name = "更新时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date updatedAt;
 
-    public void setId(Long id) 
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public Long getId() 
+    public Long getId()
     {
         return id;
     }
 
-    public void setAnalysisId(Long analysisId) 
+    public void setPositionId(Long positionId)
     {
-        this.analysisId = analysisId;
+        this.positionId = positionId;
     }
 
-    public Long getAnalysisId() 
+    public Long getPositionId()
     {
-        return analysisId;
+        return positionId;
     }
 
-    public void setNotes(String notes) 
+    public void setNotes(String notes)
     {
         this.notes = notes;
     }
 
-    public String getNotes() 
+    public String getNotes()
     {
         return notes;
     }
 
-    public void setCreatedAt(Date createdAt) 
+    public void setCreatedAt(Date createdAt)
     {
         this.createdAt = createdAt;
     }
 
-    public Date getCreatedAt() 
+    public Date getCreatedAt()
     {
         return createdAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) 
+    public void setUpdatedAt(Date updatedAt)
     {
         this.updatedAt = updatedAt;
     }
 
-    public Date getUpdatedAt() 
+    public Date getUpdatedAt()
     {
         return updatedAt;
     }
@@ -91,11 +91,11 @@ public class HoldingNotes extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("analysisId", getAnalysisId())
-            .append("notes", getNotes())
-            .append("createdAt", getCreatedAt())
-            .append("updatedAt", getUpdatedAt())
-            .toString();
+                .append("id", getId())
+                .append("positionId", getPositionId())
+                .append("notes", getNotes())
+                .append("createdAt", getCreatedAt())
+                .append("updatedAt", getUpdatedAt())
+                .toString();
     }
 }

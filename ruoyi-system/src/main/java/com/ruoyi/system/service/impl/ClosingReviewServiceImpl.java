@@ -91,4 +91,10 @@ public class ClosingReviewServiceImpl implements IClosingReviewService
     {
         return closingReviewMapper.deleteClosingReviewById(id);
     }
+
+    @Override
+    public ClosingReview selectClosingReviewByPositionId(Long positionId) {
+        return closingReviewMapper.selectClosingReviewByPositionId(positionId);
+    }
+
 }

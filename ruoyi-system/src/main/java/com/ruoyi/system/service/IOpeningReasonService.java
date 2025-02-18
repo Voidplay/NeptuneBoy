@@ -58,4 +58,7 @@ public interface IOpeningReasonService
      * @return 结果
      */
     public int deleteOpeningReasonById(Long id);
+
+    OpeningReason selectOpeningReasonByPositionId(Long positionId);
+
 }

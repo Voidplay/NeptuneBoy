@@ -20,9 +20,9 @@ public class OpeningReason extends BaseEntity
     /** $column.columnComment */
     private Long id;
 
-    /** 关联交易分析ID */
-    @Excel(name = "关联交易分析ID")
-    private Long analysisId;
+    /** 关联仓位ID */
+    @Excel(name = "关联仓位ID")
+    private Long positionId;
 
     /** 开仓原因 */
     @Excel(name = "开仓原因")
@@ -48,14 +48,14 @@ public class OpeningReason extends BaseEntity
         return id;
     }
 
-    public void setAnalysisId(Long analysisId) 
+    public void setPositionId(Long analysisId)
     {
-        this.analysisId = analysisId;
+        this.positionId = analysisId;
     }
 
-    public Long getAnalysisId() 
+    public Long getPositionId()
     {
-        return analysisId;
+        return positionId;
     }
 
     public void setReason(String reason) 
@@ -92,7 +92,7 @@ public class OpeningReason extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
-            .append("analysisId", getAnalysisId())
+            .append("positionId", getPositionId())
             .append("reason", getReason())
             .append("createdAt", getCreatedAt())
             .append("updatedAt", getUpdatedAt())

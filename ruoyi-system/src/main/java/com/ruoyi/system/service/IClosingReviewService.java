@@ -58,4 +58,8 @@ public interface IClosingReviewService
      * @return 结果
      */
     public int deleteClosingReviewById(Long id);
+
+    ClosingReview selectClosingReviewByPositionId(Long positionId);
+
+
 }

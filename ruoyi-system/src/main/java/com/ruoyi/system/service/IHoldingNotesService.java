@@ -58,4 +58,7 @@ public interface IHoldingNotesService
      * @return 结果
      */
     public int deleteHoldingNotesById(Long id);
+
+    HoldingNotes selectHoldingNotesByPositionId(Long positionId);
+
 }
