@@ -22,7 +22,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @date 2025-02-13
  */
 @Controller
-@RequestMapping("/system/holdingRecord")
+@RequestMapping("/system/holdingNotes")
 public class HoldingNotesController extends BaseController
 {
     private String prefix = "system/notes";

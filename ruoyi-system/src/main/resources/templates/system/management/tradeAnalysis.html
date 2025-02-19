@@ -20,7 +20,7 @@
 
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#openingReasonTab">开仓原因</a></li>
-        <li><a data-toggle="tab" href="#holdingRecordTab">持仓时记录</a></li>
+        <li><a data-toggle="tab" href="#holdingNotesTab">持仓时记录</a></li>
         <li><a data-toggle="tab" href="#closingReviewTab">平仓后复盘</a></li>
     </ul>
 
@@ -36,15 +36,15 @@
             <button id="openingReasonEditBtn" class="btn btn-info" onclick="editAnalysis('openingReason')" style="display:none;">编辑</button>
         </div>
 
-        <div id="holdingRecordTab" class="tab-pane fade">
+        <div id="holdingNotesTab" class="tab-pane fade">
             <h3>持仓时记录</h3>
-            <div id="holdingRecordDisplay" class="analysis-display"></div>
-            <div id="holdingRecordEdit" class="analysis-edit">
-                <textarea id="holdingRecordText" class="form-control" rows="5"></textarea>
-                <button class="btn btn-primary" onclick="saveAnalysis('holdingRecord')">保存</button>
-                <button class="btn btn-default" onclick="cancelEdit('holdingRecord')">取消</button>
+            <div id="holdingNotesDisplay" class="analysis-display"></div>
+            <div id="holdingNotesEdit" class="analysis-edit">
+                <textarea id="holdingNotesText" class="form-control" rows="5"></textarea>
+                <button class="btn btn-primary" onclick="saveAnalysis('holdingNotes')">保存</button>
+                <button class="btn btn-default" onclick="cancelEdit('holdingNotes')">取消</button>
             </div>
-            <button id="holdingRecordEditBtn" class="btn btn-info" onclick="editAnalysis('holdingRecord')" style="display:none;">编辑</button>
+            <button id="holdingNotesEditBtn" class="btn btn-info" onclick="editAnalysis('holdingNotes')" style="display:none;">编辑</button>
         </div>
 
         <div id="closingReviewTab" class="tab-pane fade">
@@ -63,33 +63,34 @@
 <script>
     var apiGetMap = {
         openingReason: '/system/openingReason/getByPositionId',
-        holdingRecord: '/system/holdingNotes/getByPositionId',
+        holdingNotes: '/system/holdingNotes/getByPositionId',
         closingReview: '/system/closingReview/getByPositionId'
     };
 
     var apiSaveMap = {
         openingReason: '/system/openingReason/edit',
-        holdingRecord: '/system/holdingNotes/edit',
+        holdingNotes: '/system/holdingNotes/edit',
         closingReview: '/system/closingReview/edit'
     };
 
-    function loadAnalysis(type) {
-        var positionId = $('#positionId').val();
-        $.get(apiGetMap[type], { positionId: positionId }, function(response) {
-            if (response.code === 0 && response.data) {
-                var content = response.data.content || '';
-                $('#' + type + 'Display').text(content);
-                if (content) {
-                    $('#' + type + 'Edit').hide();
-                    $('#' + type + 'EditBtn').show();
-                } else {
-                    editAnalysis(type);
-                }
+function loadAnalysis(type) {
+    var positionId = $('#positionId').val();
+    $.get(apiGetMap[type], { positionId: positionId }, function(response) {
+        if (response.code === 0 && response.data) {
+            var content = response.data.reason || ''; // 这里改成 reason
+            $('#' + type + 'Display').text(content);
+            if (content) {
+                $('#' + type + 'Edit').hide();
+                $('#' + type + 'EditBtn').show();
             } else {
                 editAnalysis(type);
             }
-        });
-    }
+        } else {
+            editAnalysis(type);
+        }
+    });
+}
+
 
     function editAnalysis(type) {
         $('#' + type + 'Display').hide();
@@ -130,7 +131,7 @@
 
     $(document).ready(function() {
         loadAnalysis('openingReason');
-        loadAnalysis('holdingRecord');
+        loadAnalysis('holdingNotes');
         loadAnalysis('closingReview');
     });
 </script>
